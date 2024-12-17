@@ -4,6 +4,8 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
 import { connection } from "./database/connection.js";
+import { errorMiddleWare } from "./middlewares/error.js";
+import userRouter from "./router/userRouter.js";
 
 const app = express();
 config({
@@ -28,6 +30,9 @@ app.use(
   })
 );
 
+app.use("/api/v1/user", userRouter);
+
 connection();
+app.use(errorMiddleWare)
 
 export default app;
