@@ -101,15 +101,15 @@ export const register = catchAsyncErrors(async (req, res, next) => {
 
 export const login = catchAsyncErrors(async (req, res, next) => {
   const { email, password } = req.body;
-  if(!email || !password){
+  if (!email || !password) {
     return next(new ErrorHandler("Please fill full form."));
   }
-  const user = await User.findOne({email}).select("password");
-  if(!user){
+  const user = await User.findOne({ email }).select("password");
+  if (!user) {
     return next(new ErrorHandler("Invalid credentials.", 400));
   }
   const isPasswordMatch = await user.comparePassword(password);
-  if(!isPasswordMatch){
+  if (!isPasswordMatch) {
     return next(new ErrorHandler("Invalid credentials.", 400));
   }
   generateToken(user, "Login successfully.", 200, res);
@@ -123,5 +123,14 @@ export const getProfile = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-export const logout = catchAsyncErrors(async (req, res, next) => {});
+export const logout = catchAsyncErrors(async (req, res, next) => {
+  res.status(200).cookie("token", "", {
+    expires: new Date(Date.now()),
+    httpOnly: true,
+  }).json({
+    success: true,
+    message: "Logout Successfully."
+  });
+});
+
 export const fetchLeaderboard = catchAsyncErrors(async (req, res, next) => {});
