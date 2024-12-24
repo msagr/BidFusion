@@ -115,6 +115,13 @@ export const login = catchAsyncErrors(async (req, res, next) => {
   generateToken(user, "Login successfully.", 200, res);
 });
 
-export const getProfile = catchAsyncErrors(async (req, res, next) => {});
+export const getProfile = catchAsyncErrors(async (req, res, next) => {
+  const user = req.user;
+  res.status(200).json({
+    success: true,
+    user,
+  });
+});
+
 export const logout = catchAsyncErrors(async (req, res, next) => {});
 export const fetchLeaderboard = catchAsyncErrors(async (req, res, next) => {});
