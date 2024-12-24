@@ -6,14 +6,14 @@ import { generateToken } from "../utils/jwtToken.js";
 
 export const register = catchAsyncErrors(async (req, res, next) => {
   if (!req.files || Object.keys(req.files).length === 0) {
-    return next(new ErrorHandler("Profile Image Required.", 400));
+    return next(new ErrorHandler("Profile image required.", 400));
   }
 
   const { profileImage } = req.files;
   const allowedFormats = ["image/png", "image/jpeg", "image/webp"];
 
   if (!allowedFormats.includes(profileImage.mimetype)) {
-    return next(new ErrorHandler("file format not supported.", 400));
+    return next(new ErrorHandler("File format not supported.", 400));
   }
 
   const {
